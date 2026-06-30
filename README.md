@@ -4,7 +4,7 @@
 
 <img align="right" src="https://komarev.com/ghpvc/?username=jason-miles&label=VISITORS&color=blueviolet&style=for-the-badge" alt="Profile views" />
 
-**DATABRICKS SOLUTIONS ARCHITECT  |  AI/ML  |  LONDON**
+**DATABRICKS SOLUTIONS ARCHITECT  |  DW/DE/AI/ML  |  LONDON**
 
 ---
 
