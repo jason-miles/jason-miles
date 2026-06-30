@@ -33,27 +33,32 @@ _Coming soon — talks, tutorials, and posts on Databricks, AI/ML, and Vibe Codi
 
 ## 📈 GitHub Stats
 
+<!-- Self-hosted stats — generated nightly by jason-miles/github-stats workflow.
+     Light/dark variants via <picture> so they look right in both GitHub themes. -->
+
 <table>
   <tr>
     <td>
-      <img height="180" src="https://github-readme-stats.vercel.app/api?username=jason-miles&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=false&custom_title=Jason%20Miles%27s%20GitHub%20Statistics" alt="GitHub Stats" />
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jason-miles/github-stats/generated/overview.svg#gh-dark-mode-only" />
+        <img src="https://raw.githubusercontent.com/jason-miles/github-stats/generated/overview.svg" alt="Jason Miles's GitHub Statistics — Stars, Contributions, Lines of code changed, Repos contributed to" />
+      </picture>
     </td>
     <td>
-      <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=jason-miles&layout=compact&theme=tokyonight&hide_border=false&langs_count=8&custom_title=Languages%20Used" alt="Top Languages" />
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jason-miles/github-stats/generated/languages.svg#gh-dark-mode-only" />
+        <img src="https://raw.githubusercontent.com/jason-miles/github-stats/generated/languages.svg" alt="Languages Used by File Size" />
+      </picture>
     </td>
   </tr>
 </table>
 
 <details>
-  <summary>📊 More stats</summary>
+  <summary>📊 More stats (streak)</summary>
 
   <br/>
 
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=jason-miles&theme=tokyonight&hide_border=false" alt="GitHub Streak" />
-
-  <br/><br/>
-
-  <img src="https://github-profile-trophy.vercel.app/?username=jason-miles&theme=tokyonight&no-frame=true&row=1&column=7" alt="GitHub Trophies" />
 </details>
 
 ---
