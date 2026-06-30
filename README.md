@@ -95,6 +95,7 @@ Additional Databricks credentials:
 
 - Databricks Certified Generative AI Engineer Associate — May 2025
 - Databricks Certified Data Engineer Associate — January 2025
+- Academy Accreditation — AI Agent Fundamentals on Databricks — June 2025
 - Academy Accreditation — Generative AI Fundamentals — March 2025
 - Academy Accreditation — Databricks Lakehouse Fundamentals — October 2024
 - DAIS FE Accreditation 2025 — July 2025
