@@ -13,7 +13,6 @@
 - 🛰&nbsp; Databricks Solutions Architect
 - 🌱&nbsp; Engineering, AI/ML, Data Engineering
 - 👯&nbsp; I'm looking to collaborate on any good idea!
-- 💬&nbsp; Ask me about anything you want!
 - 📫&nbsp; How to reach me: See below!
 - ⚡&nbsp; Fun fact: I'm a Databricks Vibe Coding workshop facilitator
 
