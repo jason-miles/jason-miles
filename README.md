@@ -11,7 +11,7 @@
 ## 😎 About me
 
 - 🛰&nbsp; Databricks Solutions Architect
-- 🌱&nbsp; Engineering, AI/ML, Data Engineering
+- 🌱&nbsp; Data Warehousing, Data Engineering, AI/ML
 - 👯&nbsp; I'm looking to collaborate on any good idea!
 - 📫&nbsp; How to reach me: See below!
 - ⚡&nbsp; Fun fact: I'm a Databricks Vibe Coding workshop facilitator
@@ -26,7 +26,7 @@
        - Medium feed:    https://medium-stats-api.vercel.app/
        - Static badges:  ![Latest post](https://img.shields.io/badge/Latest_post-...) -->
 
-_Coming soon — talks, tutorials, and posts on Databricks, AI/ML, and Vibe Coding._
+_Coming soon — talks, tutorials, and posts on Databricks, DW/DE/AI/ML, and Vibe Coding._
 
 ---
 
