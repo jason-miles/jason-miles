@@ -73,6 +73,8 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
 
 ## Certifications
 
+<p align="center"><strong>Databricks — Professional</strong></p>
+
 <p align="center">
   <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet" title="Databricks Certified Machine Learning Engineer Professional">
     <img height="150" src="assets/databricks-ml-engineer-professional.png" alt="Databricks Certified Machine Learning Engineer Professional" />
@@ -88,21 +90,50 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
 </p>
 
 <p align="center">
-  <sub><em>Machine Learning Engineer Professional · Data Engineer Professional · Building Retrieval Agents on Databricks</em></sub>
+  <sub><em>Machine Learning Engineer Professional &nbsp;·&nbsp; Data Engineer Professional &nbsp;·&nbsp; Building Retrieval Agents on Databricks</em></sub>
 </p>
 
-Additional Databricks credentials:
+<p align="center"><strong>Databricks — Associate &amp; Academy Accreditations</strong></p>
 
-- Databricks Certified Generative AI Engineer Associate — May 2025
-- Databricks Certified Data Engineer Associate — January 2025
-- Academy Accreditation — AI Agent Fundamentals on Databricks — June 2025
-- Academy Accreditation — Generative AI Fundamentals — March 2025
-- Academy Accreditation — Databricks Lakehouse Fundamentals — October 2024
-- DAIS FE Accreditation 2025 — July 2025
+<p align="center">
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet" title="Databricks Certified Generative AI Engineer Associate">
+    <img height="120" src="assets/databricks-genai-engineer-associate.png" alt="Databricks Certified Generative AI Engineer Associate" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet" title="Databricks Certified Data Engineer Associate">
+    <img height="120" src="assets/databricks-data-engineer-associate.png" alt="Databricks Certified Data Engineer Associate" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet" title="Academy Accreditation — AI Agent Fundamentals on Databricks">
+    <img height="120" src="assets/databricks-ai-agent-fundamentals.png" alt="Academy Accreditation — AI Agent Fundamentals on Databricks" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet" title="Academy Accreditation — Generative AI Fundamentals">
+    <img height="120" src="assets/databricks-genai-fundamentals.png" alt="Academy Accreditation — Generative AI Fundamentals" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet" title="Academy Accreditation — Databricks Lakehouse Fundamentals">
+    <img height="120" src="assets/databricks-lakehouse-fundamentals.png" alt="Academy Accreditation — Databricks Lakehouse Fundamentals" />
+  </a>
+</p>
 
-External:
+<p align="center">
+  <sub><em>GenAI Engineer Associate &nbsp;·&nbsp; Data Engineer Associate &nbsp;·&nbsp; AI Agent Fundamentals &nbsp;·&nbsp; GenAI Fundamentals &nbsp;·&nbsp; Lakehouse Fundamentals</em></sub>
+</p>
 
-- SnowPro Core Certification — January 2024
+<p align="center"><strong>External</strong></p>
+
+<p align="center">
+  <a href="https://achieve.snowflake.com/profile/jasonmiles/wallet" title="SnowPro Core Certification">
+    <img height="120" src="assets/snowpro-core.png" alt="SnowPro Core Certification" />
+  </a>
+</p>
+
+<p align="center">
+  <sub><em>SnowPro Core Certification</em></sub>
+</p>
+
+Also: **DAIS FE Accreditation 2025** (Databricks internal, July 2025).
 
 [View full credentials wallet →](https://credentials.databricks.com/profile/jasonmiles-bcs/wallet)
 
