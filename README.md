@@ -133,8 +133,6 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
   <sub><em>SnowPro Core Certification</em></sub>
 </p>
 
-Also: **DAIS FE Accreditation 2025** (Databricks internal, July 2025).
-
 [View full credentials wallet →](https://credentials.databricks.com/profile/jasonmiles-bcs/wallet)
 
 ---
