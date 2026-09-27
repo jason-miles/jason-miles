@@ -40,6 +40,8 @@ PROJECTS = [
          layout="ops"),
     dict(slug="elexon", idx="09", title="Elexon Settlement Accuracy", tag="ENERGY · RECONCILIATION",
          layout="settlement"),
+    dict(slug="blueprints", idx="10", title="Lakehouse Blueprints", tag="REFERENCE ARCHITECTURE · LIVE APP",
+         layout="composer"),
 ]
 
 
@@ -274,8 +276,50 @@ def _settlement():
     return "".join(s)
 
 
+def _composer():
+    """A mini of the Lakehouse Blueprints app — scenario tabs + medallion flow."""
+    y0 = 92
+    s = []
+    # scenario tabs
+    tabs = [("STREAMING", True), ("FRAUD & AML", False), ("GENAI", False), ("BI", False)]
+    x = PAD
+    for label, active in tabs:
+        w = len(label) * 7 + 26
+        if active:
+            s.append(f'<rect x="{x}" y="{y0}" width="{w}" height="26" rx="13" fill="{brand.RED}"/>')
+            s.append(f'<text x="{x+w/2:.0f}" y="{y0+17}" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" letter-spacing="0.5">{brand.esc(label)}</text>')
+        else:
+            s.append(f'<rect x="{x}" y="{y0}" width="{w}" height="26" rx="13" class="panelstroke" fill="none" stroke-width="1"/>')
+            s.append(f'<text x="{x+w/2:.0f}" y="{y0+17}" text-anchor="middle" class="muted" font-size="11" font-weight="600" letter-spacing="0.5">{brand.esc(label)}</text>')
+        x += w + 10
+    # medallion flow
+    nodes = [("Ingest", False), ("Bronze", False), ("Silver", False), ("Gold", True), ("Serve", True)]
+    nw, aw, ny, nh = 98, 22, y0 + 66, 56
+    fx = PAD + (W - 2 * PAD - (5 * nw + 4 * aw)) / 2
+    for i, (label, accent) in enumerate(nodes):
+        nx = fx + i * (nw + aw)
+        if accent:
+            s.append(f'<rect x="{nx:.0f}" y="{ny}" width="{nw}" height="{nh}" rx="9" class="panel" stroke="{brand.RED}" stroke-width="1.5"/>')
+        else:
+            s.append(f'<rect x="{nx:.0f}" y="{ny}" width="{nw}" height="{nh}" rx="9" class="panel panelstroke" stroke-width="1"/>')
+        s.append(f'<text x="{nx+nw/2:.0f}" y="{ny+34}" text-anchor="middle" class="txt" font-size="14" font-weight="700">{label}</text>')
+        if i < len(nodes) - 1:
+            ax = nx + nw + 4
+            s.append(f'<line x1="{ax:.0f}" y1="{ny+nh/2}" x2="{ax+aw-10:.0f}" y2="{ny+nh/2}" stroke="{brand.RED}" stroke-width="2"/>')
+            s.append(f'<path d="M{ax+aw-10:.0f} {ny+nh/2} l-6 -4 v8 z" fill="{brand.RED}"/>')
+    # governance bar
+    gy = ny + nh + 22
+    s.append(f'<rect x="{PAD}" y="{gy}" width="{W-2*PAD}" height="46" rx="10" fill="none" stroke="{brand.HAIR_D}" stroke-dasharray="4 4" stroke-width="1"/>')
+    s.append(f'<circle cx="{PAD+22}" cy="{gy+23}" r="4" fill="{brand.RED}"/>')
+    s.append(f'<text x="{PAD+38}" y="{gy+20}" class="txt" font-size="13" font-weight="700">Unity Catalog</text>')
+    s.append(f'<text x="{PAD+38}" y="{gy+37}" class="muted" font-size="11">governance spanning every layer</text>')
+    return "".join(s)
+
+
 def build(p):
-    if p["layout"] == "dashboard":
+    if p["layout"] == "composer":
+        body = _composer()
+    elif p["layout"] == "dashboard":
         body = _dashboard(p["kpis"])
     elif p["layout"] == "exam":
         body = _exam(p["q"])

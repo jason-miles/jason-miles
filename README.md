@@ -86,14 +86,14 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
       <a href="https://github.com/jason-miles/elexon-app-for-settlement-accuracy"><img src="assets/proj-elexon.svg" alt="Elexon Settlement Accuracy" width="100%" /></a>
       <p><sub>Settlement-accuracy app for GB electricity-market data — reconciling metered volumes against settled positions to surface variance.</sub></p>
     </td>
-    <td width="50%" valign="top" align="center">
-      <br/><br/><br/>
-      <a href="https://github.com/jason-miles?tab=repositories"><b>See all repositories →</b></a>
-      <br/><br/>
-      <sub>25 public repositories across Databricks Apps,<br/>reference architectures and workshops.</sub>
+    <td width="50%" valign="top">
+      <a href="https://jason-miles.github.io/lakehouse-blueprints/"><img src="assets/proj-blueprints.svg" alt="Lakehouse Blueprints — reference architecture composer" width="100%" /></a>
+      <p><sub><b>Live app ↗</b> — an interactive reference-architecture composer: pick a scenario and see the tailored Databricks Lakehouse architecture, components and design notes. <a href="https://github.com/jason-miles/lakehouse-blueprints">Source</a>.</sub></p>
     </td>
   </tr>
 </table>
+
+<p align="center"><sub><a href="https://github.com/jason-miles?tab=repositories"><b>See all 26 repositories →</b></a></sub></p>
 
 <details>
   <summary><b>Architecture at a glance</b> — how the two flagship Databricks Apps are wired</summary>
