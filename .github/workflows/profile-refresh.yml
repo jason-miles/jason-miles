@@ -1,0 +1,54 @@
+name: Refresh profile visuals
+
+# Regenerates the hero banner (live repo count) and the "Currently building"
+# strip (most recently pushed public repos) so the profile stays current.
+# Project preview cards are static — regenerated here too so a tweak to
+# scripts/generate_projects.py picks up automatically, but they rarely change.
+
+on:
+  schedule:
+    - cron: "20 5 * * *"      # daily, 05:20 UTC
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/profile-refresh.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate SVGs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          cd scripts
+          python3 generate_hero.py
+          python3 generate_now.py
+          python3 generate_projects.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain assets)" ]]; then
+            git add assets
+            git commit -m "chore: refresh profile visuals [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
