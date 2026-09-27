@@ -25,9 +25,18 @@ HEAD_Y = 40
 COL_TOP = 88
 SKIP = {"jason-miles", "github-stats"}
 
+# Curated flagship repos to feature, in order. Their "updated N ago" is still
+# pulled live — this pins *which* repos show, not fake timestamps. If a curated
+# repo is missing, we top up with the most recently pushed non-curated repo.
+CURATED = [
+    "sentinel-app",
+    "discovery-vitality-pulse-app-V1",
+    "momentum-life-claims-processing-app",
+]
+
 
 def recent_repos(n=3):
-    url = f"https://api.github.com/users/{USER}/repos?sort=pushed&per_page=30&type=owner"
+    url = f"https://api.github.com/users/{USER}/repos?sort=pushed&per_page=100&type=owner"
     req = urllib.request.Request(url)
     tok = os.environ.get("GITHUB_TOKEN")
     if tok:
@@ -38,14 +47,17 @@ def recent_repos(n=3):
             data = json.load(r)
     except Exception:
         return []
-    out = []
+    by_name = {repo["name"]: repo for repo in data}
+    out = [by_name[name] for name in CURATED if name in by_name]
+    # top up with most-recently-pushed repos if any curated ones are missing
     for repo in data:
-        if repo["name"] in SKIP or repo.get("fork") or repo.get("archived"):
+        if len(out) >= n:
+            break
+        if (repo["name"] in SKIP or repo["name"] in CURATED
+                or repo.get("fork") or repo.get("archived")):
             continue
         out.append(repo)
-        if len(out) == n:
-            break
-    return out
+    return out[:n]
 
 
 def ago(iso):
@@ -61,8 +73,10 @@ def ago(iso):
     if days < 30:
         return f"{days} DAYS AGO"
     if days < 365:
-        return f"{days // 30} MONTHS AGO"
-    return f"{days // 365} YEARS AGO"
+        m = days // 30
+        return f"{m} MONTH AGO" if m == 1 else f"{m} MONTHS AGO"
+    y = days // 365
+    return f"{y} YEAR AGO" if y == 1 else f"{y} YEARS AGO"
 
 
 def _wrap(text, cpl):

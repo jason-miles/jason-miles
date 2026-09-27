@@ -9,6 +9,7 @@ workshop) with a single red accent, and the project name set in Space Grotesk.
 
 Local run:  python3 scripts/generate_projects.py
 """
+import math
 from pathlib import Path
 import brand
 
@@ -33,6 +34,12 @@ PROJECTS = [
          layout="pipeline"),
     dict(slug="vibe", idx="06", title="Vibe Coding Workshop", tag="WORKSHOP · NOV 2025",
          layout="workshop"),
+    dict(slug="momentum", idx="07", title="Momentum Life Claims", tag="CLAIMS PROCESSING · DATABRICKS APP",
+         layout="claims"),
+    dict(slug="mining", idx="08", title="Smart Mining Ops", tag="OPERATIONS · REAL-TIME",
+         layout="ops"),
+    dict(slug="elexon", idx="09", title="Elexon Settlement Accuracy", tag="ENERGY · RECONCILIATION",
+         layout="settlement"),
 ]
 
 
@@ -169,6 +176,104 @@ def _workshop():
     return "".join(s)
 
 
+def _claims():
+    """A claims queue — rows with status pills, one flagged in red."""
+    y0 = 92
+    ix, iw = PAD + 24, W - 2 * PAD - 48
+    s = [_panel(PAD, y0, W - 2 * PAD, 220)]
+    s.append(f'<text x="{ix}" y="{y0+30}" class="muted" font-size="11.5" font-weight="700" letter-spacing="1.8">CLAIMS QUEUE</text>')
+    # red count badge
+    bw = 92
+    s.append(f'<rect x="{ix+iw-bw}" y="{y0+16}" width="{bw}" height="22" rx="11" fill="{brand.RED}" fill-opacity="0.12" stroke="{brand.RED}" stroke-width="1"/>')
+    s.append(f'<text x="{ix+iw-bw/2:.0f}" y="{y0+31}" text-anchor="middle" fill="{brand.RED}" font-size="11" font-weight="700" letter-spacing="0.6">1 FLAGGED</text>')
+    rows = [("APPROVED", False), ("APPROVED", False), ("FLAGGED", True), ("PENDING", False)]
+    for i, (status, flag) in enumerate(rows):
+        y = y0 + 66 + i * 38
+        s.append(f'<rect x="{ix}" y="{y}" width="46" height="24" rx="6" class="panelstroke" fill="none" stroke-width="1"/>')
+        s.append(f'<text x="{ix+23}" y="{y+16}" text-anchor="middle" class="muted" font-size="11" font-weight="500">#{142+i}</text>')
+        s.append(f'<rect x="{ix+60}" y="{y+8}" width="{iw-60-118}" height="8" rx="4" class="muted" opacity="0.32"/>')
+        pw = 104
+        px = ix + iw - pw
+        if flag:
+            s.append(f'<rect x="{px}" y="{y}" width="{pw}" height="24" rx="12" fill="{brand.RED}" fill-opacity="0.12" stroke="{brand.RED}" stroke-width="1"/>')
+            s.append(f'<circle cx="{px+16}" cy="{y+12}" r="3.5" fill="{brand.RED}"/>')
+            s.append(f'<text x="{px+28}" y="{y+16}" fill="{brand.RED}" font-size="11" font-weight="700" letter-spacing="0.5">{status}</text>')
+        else:
+            s.append(f'<rect x="{px}" y="{y}" width="{pw}" height="24" rx="12" class="panelstroke" fill="none" stroke-width="1"/>')
+            s.append(f'<circle cx="{px+16}" cy="{y+12}" r="3.5" class="muted"/>')
+            s.append(f'<text x="{px+28}" y="{y+16}" class="muted" font-size="11" font-weight="500" letter-spacing="0.5">{status}</text>')
+    return "".join(s)
+
+
+def _arc(cx, cy, r, a0, a1):
+    """SVG arc path across the top half, angles in degrees (180=left, 0=right)."""
+    x0, y0 = cx + r * math.cos(math.radians(a0)), cy - r * math.sin(math.radians(a0))
+    x1, y1 = cx + r * math.cos(math.radians(a1)), cy - r * math.sin(math.radians(a1))
+    return f'M {x0:.1f} {y0:.1f} A {r} {r} 0 0 1 {x1:.1f} {y1:.1f}'
+
+
+def _ops():
+    """A throughput gauge (red arc) + an equipment status grid, one alert red."""
+    y0 = 92
+    gw = 236
+    s = [_panel(PAD, y0, gw, 220)]
+    cx, cy, r = PAD + gw / 2, y0 + 150, 82
+    s.append(f'<path d="{_arc(cx,cy,r,180,0)}" fill="none" class="muted" stroke-width="12" opacity="0.28" stroke-linecap="round"/>')
+    s.append(f'<path d="{_arc(cx,cy,r,180,180-0.94*180)}" fill="none" stroke="{brand.RED}" stroke-width="12" stroke-linecap="round"/>')
+    s.append(f'<text x="{cx:.0f}" y="{cy-8}" text-anchor="middle" class="txt" font-size="34" font-weight="700">94%</text>')
+    s.append(f'<text x="{cx:.0f}" y="{cy+16}" text-anchor="middle" class="muted" font-size="11" letter-spacing="2">UPTIME</text>')
+    # equipment grid
+    px = PAD + gw + 16
+    pw = W - PAD - px
+    s.append(_panel(px, y0, pw, 220))
+    units = [("RIG-01", False), ("RIG-02", False), ("HAUL-A", False),
+             ("HAUL-B", True), ("MILL-1", False), ("MILL-2", False)]
+    cols, tw, th, gx, gy = 3, (pw - 48 - 2 * 14) / 3, 78, 14, 16
+    for i, (name, alert) in enumerate(units):
+        tx = px + 24 + (i % cols) * (tw + gx)
+        ty = y0 + 24 + (i // cols) * (th + gy)
+        s.append(f'<rect x="{tx:.0f}" y="{ty}" width="{tw:.0f}" height="{th}" rx="8" class="panelstroke" fill="none" stroke-width="1"/>')
+        c = brand.RED if alert else "#3fb950"
+        s.append(f'<circle cx="{tx+16:.0f}" cy="{ty+22}" r="4" fill="{c}"/>')
+        s.append(f'<text x="{tx+28:.0f}" y="{ty+26}" class="txt" font-size="12" font-weight="700">{name}</text>')
+        s.append(f'<rect x="{tx+16:.0f}" y="{ty+42}" width="{tw-40:.0f}" height="6" rx="3" class="muted" opacity="0.3"/>')
+    return "".join(s)
+
+
+def _settlement():
+    """Reconciliation: two close series (metered vs settled, red) + variance bars."""
+    y0 = 92
+    s = [_panel(PAD, y0, W - 2 * PAD, 220)]
+    ix, iw = PAD + 24, W - 2 * PAD - 48
+    # legend
+    s.append(f'<rect x="{ix}" y="{y0+18}" width="14" height="4" rx="2" class="muted" opacity="0.6"/>')
+    s.append(f'<text x="{ix+22}" y="{y0+26}" class="muted" font-size="11">METERED</text>')
+    s.append(f'<rect x="{ix+108}" y="{y0+18}" width="14" height="4" rx="2" fill="{brand.RED}"/>')
+    s.append(f'<text x="{ix+130}" y="{y0+26}" class="muted" font-size="11">SETTLED</text>')
+    # two close series
+    n = 7
+    top, bot = y0 + 44, y0 + 128
+    xs = [ix + k * iw / (n - 1) for k in range(n)]
+    met = [0.35, 0.55, 0.42, 0.7, 0.5, 0.78, 0.62]
+    stl = [0.32, 0.5, 0.46, 0.6, 0.54, 0.7, 0.6]
+    def _pts(vals):
+        return " ".join(f"{x:.0f},{bot-(bot-top)*v:.0f}" for x, v in zip(xs, vals))
+    s.append(f'<polyline points="{_pts(met)}" fill="none" class="muted" stroke-width="2" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>')
+    s.append(f'<polyline points="{_pts(stl)}" fill="none" stroke="{brand.RED}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>')
+    # variance bars along the bottom, one exception red
+    var = [3, 5, 4, 10, 4, 8, 2]
+    vy = y0 + 150
+    biggest = var.index(max(var))
+    bw2 = 16
+    for i, v in enumerate(var):
+        x = xs[i] - bw2 / 2
+        fill = f'fill="{brand.RED}"' if i == biggest else 'class="muted"'
+        s.append(f'<rect x="{x:.0f}" y="{vy+ (30-v*3):.0f}" width="{bw2}" height="{v*3}" rx="2" {fill} '
+                 f'{"" if i==biggest else "opacity=\"0.4\""}/>')
+    s.append(f'<text x="{ix}" y="{vy+58}" class="muted" font-size="10.5" letter-spacing="1.5">SETTLEMENT-PERIOD VARIANCE (%)</text>')
+    return "".join(s)
+
+
 def build(p):
     if p["layout"] == "dashboard":
         body = _dashboard(p["kpis"])
@@ -176,6 +281,12 @@ def build(p):
         body = _exam(p["q"])
     elif p["layout"] == "pipeline":
         body = _pipeline()
+    elif p["layout"] == "claims":
+        body = _claims()
+    elif p["layout"] == "ops":
+        body = _ops()
+    elif p["layout"] == "settlement":
+        body = _settlement()
     else:
         body = _workshop()
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="{brand.esc(p['title'])} — {brand.esc(p['tag'])}">

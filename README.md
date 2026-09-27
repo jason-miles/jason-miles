@@ -71,6 +71,28 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
       <p><sub>Materials, demos and exercises from the Nov 2025 Vibe Coding workshop on building production AI assistants on Databricks.</sub></p>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://github.com/jason-miles/momentum-life-claims-processing-app"><img src="assets/proj-momentum.svg" alt="Momentum Life Claims" width="100%" /></a>
+      <p><sub>Life-insurance claims processing app — automating intake, triage and adjudication over governed policy &amp; claims data on the Lakehouse.</sub></p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://github.com/jason-miles/smart-mining-ops-manager-app"><img src="assets/proj-mining.svg" alt="Smart Mining Ops" width="100%" /></a>
+      <p><sub>Real-time mining operations manager — equipment uptime, safety and throughput monitoring on the Databricks Lakehouse.</sub></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://github.com/jason-miles/elexon-app-for-settlement-accuracy"><img src="assets/proj-elexon.svg" alt="Elexon Settlement Accuracy" width="100%" /></a>
+      <p><sub>Settlement-accuracy app for GB electricity-market data — reconciling metered volumes against settled positions to surface variance.</sub></p>
+    </td>
+    <td width="50%" valign="top" align="center">
+      <br/><br/><br/>
+      <a href="https://github.com/jason-miles?tab=repositories"><b>See all repositories →</b></a>
+      <br/><br/>
+      <sub>25 public repositories across Databricks Apps,<br/>reference architectures and workshops.</sub>
+    </td>
+  </tr>
 </table>
 
 <details>
