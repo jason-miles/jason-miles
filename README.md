@@ -1,8 +1,9 @@
 <!--
   This README is partly generated. The hero banner, the "Currently building"
-  strip and the project preview cards are SVGs rebuilt nightly by
-  .github/workflows/profile-refresh.yml (scripts/generate_*.py). Edit prose
-  freely; regenerate visuals with `python3 scripts/generate_*.py`.
+  strip and the project spec cards are SVGs rebuilt nightly by
+  .github/workflows/profile-refresh.yml (scripts/generate_*.py, sharing the
+  brand kit in scripts/brand.py — one embedded typeface, one red accent).
+  Edit prose freely; regenerate visuals with `python3 scripts/generate_*.py`.
 -->
 
 <p align="center">
@@ -12,9 +13,11 @@
 </p>
 
 <p align="center">
-  <a href="https://jason-miles.github.io"><img src="https://img.shields.io/badge/Homepage-jason--miles.github.io-FF3621?style=for-the-badge&logo=githubpages&logoColor=white" alt="Homepage" /></a>
-  <a href="https://www.linkedin.com/in/jasonmiles/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
-  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet"><img src="https://img.shields.io/badge/Databricks_credentials-FF5F46?style=for-the-badge&logo=databricks&logoColor=white" alt="Databricks credentials" /></a>
+  <a href="https://jason-miles.github.io"><b>Homepage</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://www.linkedin.com/in/jasonmiles/"><b>LinkedIn</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet"><b>Credentials wallet</b></a>
 </p>
 
 ---
@@ -41,61 +44,31 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
   <tr>
     <td width="50%" valign="top">
       <a href="https://github.com/jason-miles/sentinel-app"><img src="assets/proj-sentinel.svg" alt="Sentinel — Fraud & AML" width="100%" /></a>
-      <br/><b><a href="https://github.com/jason-miles/sentinel-app">Sentinel — Fraud &amp; AML</a></b>
-      <br/><sub>Multi-tenant fraud &amp; AML detection — one codebase, per-bank branding (Capitec · Nedbank · Investec), shipped as a Databricks App.</sub>
-      <br/><br/>
-      <img src="https://img.shields.io/badge/Databricks_Apps-FF3621?style=flat-square&logo=databricks&logoColor=white" />
-      <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" />
-      <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" />
+      <p><sub>Multi-tenant fraud &amp; AML detection — one codebase, per-bank branding (Capitec · Nedbank · Investec), shipped as a Databricks App.</sub></p>
     </td>
     <td width="50%" valign="top">
       <a href="https://github.com/jason-miles/discovery-vitality-pulse-app-V1"><img src="assets/proj-vitality.svg" alt="Discovery Vitality Pulse" width="100%" /></a>
-      <br/><b><a href="https://github.com/jason-miles/discovery-vitality-pulse-app-V1">Discovery Vitality Pulse</a></b>
-      <br/><sub>Shared-value analytics portal quantifying how healthier member behaviour lowers claims and funds rewards — governed Databricks App with an Ask-Genie NL hub.</sub>
-      <br/><br/>
-      <img src="https://img.shields.io/badge/Databricks_Apps-FF3621?style=flat-square&logo=databricks&logoColor=white" />
-      <img src="https://img.shields.io/badge/Genie-FF5F46?style=flat-square&logo=databricks&logoColor=white" />
-      <img src="https://img.shields.io/badge/React_+_Recharts-20232A?style=flat-square&logo=react&logoColor=61DAFB" />
+      <p><sub>Shared-value analytics portal quantifying how healthier member behaviour lowers claims and funds rewards — a governed Databricks App with an Ask-Genie NL hub.</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
       <a href="https://github.com/jason-miles/dbx-mlpro-cert"><img src="assets/proj-mlpro.svg" alt="Databricks ML Professional exam prep" width="100%" /></a>
-      <br/><b><a href="https://github.com/jason-miles/dbx-mlpro-cert">dbx-mlpro-cert</a></b>
-      <br/><sub>171-question ML Professional mock-exam app — Advanced MLOps &amp; ML at Scale, three full practice exams with AI-reasoned answer keys.</sub>
-      <br/><br/>
-      <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" />
-      <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" />
-      <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" />
+      <p><sub>171-question ML Professional mock-exam app — Advanced MLOps &amp; ML at Scale, three full practice exams with AI-reasoned answer keys.</sub></p>
     </td>
     <td width="50%" valign="top">
       <a href="https://github.com/jason-miles/dbx-depro-cert"><img src="assets/proj-depro.svg" alt="Databricks Data Engineer Professional exam prep" width="100%" /></a>
-      <br/><b><a href="https://github.com/jason-miles/dbx-depro-cert">dbx-depro-cert</a></b>
-      <br/><sub>Data Engineer Professional mock-exam app — same companion format, focused on Lakeflow, streaming, Delta, and Unity Catalog.</sub>
-      <br/><br/>
-      <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" />
-      <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" />
-      <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" />
+      <p><sub>Data Engineer Professional mock-exam app — same companion format, focused on Lakeflow, streaming, Delta, and Unity Catalog.</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
       <a href="https://github.com/jason-miles/Operationalizing-AI-SAP-Databricks"><img src="assets/proj-sap.svg" alt="Operationalizing AI — SAP x Databricks" width="100%" /></a>
-      <br/><b><a href="https://github.com/jason-miles/Operationalizing-AI-SAP-Databricks">Operationalizing AI · SAP × Databricks</a></b>
-      <br/><sub>End-to-end reference pattern for operationalizing AI workloads across SAP business data and the Databricks Data Intelligence Platform.</sub>
-      <br/><br/>
-      <img src="https://img.shields.io/badge/Databricks-FF3621?style=flat-square&logo=databricks&logoColor=white" />
-      <img src="https://img.shields.io/badge/SAP-0FAAFF?style=flat-square&logo=sap&logoColor=white" />
-      <img src="https://img.shields.io/badge/Reference_Architecture-59636e?style=flat-square" />
+      <p><sub>End-to-end reference pattern for operationalizing AI workloads across SAP business data and the Databricks Data Intelligence Platform.</sub></p>
     </td>
     <td width="50%" valign="top">
       <a href="https://github.com/jason-miles/vibe-coding-workshop"><img src="assets/proj-vibe.svg" alt="Vibe Coding Workshop" width="100%" /></a>
-      <br/><b><a href="https://github.com/jason-miles/vibe-coding-workshop">vibe-coding-workshop</a></b>
-      <br/><sub>Materials, demos and exercises from the Nov 2025 Vibe Coding workshop on building production AI assistants on Databricks.</sub>
-      <br/><br/>
-      <img src="https://img.shields.io/badge/Databricks-FF3621?style=flat-square&logo=databricks&logoColor=white" />
-      <img src="https://img.shields.io/badge/Generative_AI-FF5F46?style=flat-square" />
-      <img src="https://img.shields.io/badge/Workshop-59636e?style=flat-square" />
+      <p><sub>Materials, demos and exercises from the Nov 2025 Vibe Coding workshop on building production AI assistants on Databricks.</sub></p>
     </td>
   </tr>
 </table>
@@ -108,7 +81,7 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
 **Sentinel — Fraud & AML**
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#1f2937','primaryTextColor':'#ffffff','primaryBorderColor':'#FF5F46','lineColor':'#FF5F46','clusterBkg':'#1f2937','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#12161C','primaryTextColor':'#EDF0F3','primaryBorderColor':'#FF3621','lineColor':'#FF3621','clusterBkg':'#12161C','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
 flowchart LR
   T[Transactions & core banking] --> BZ[Bronze<br/>Delta]
   W[Sanctions & watchlists] --> BZ
@@ -125,7 +98,7 @@ flowchart LR
 **Discovery Vitality Pulse**
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#1f2937','primaryTextColor':'#ffffff','primaryBorderColor':'#FF5F46','lineColor':'#FF5F46','clusterBkg':'#1f2937','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#12161C','primaryTextColor':'#EDF0F3','primaryBorderColor':'#FF3621','lineColor':'#FF3621','clusterBkg':'#12161C','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
 flowchart LR
   M[Member health, claims & rewards] --> BZ[Bronze] --> SV[Silver] --> GD[Gold<br/>shared-value metrics]
   GD --> DASH[AI/BI dashboards<br/>GM Morning Brief]
@@ -137,15 +110,15 @@ flowchart LR
 
 ---
 
-## What I work with
+## Toolchain
 
-**Databricks Platform** &nbsp;·&nbsp; Data Intelligence Platform · Unity Catalog · Delta Lake · Lakehouse Architecture · DBSQL
+**Platform** &nbsp;—&nbsp; Data Intelligence Platform · Unity Catalog · Delta Lake · Lakehouse Architecture · DBSQL
 
-**Data Engineering** &nbsp;·&nbsp; Lakeflow / Spark Declarative Pipelines · Spark Structured Streaming · Apache Spark / PySpark · Data Warehousing
+**Data Engineering** &nbsp;—&nbsp; Lakeflow / Spark Declarative Pipelines · Spark Structured Streaming · Apache Spark / PySpark · Data Warehousing
 
-**AI & ML** &nbsp;·&nbsp; MLflow · Model Serving · Vector Search · Generative AI Engineering · Agent Systems / Agent Bricks · RAG
+**AI & ML** &nbsp;—&nbsp; MLflow · Model Serving · Vector Search · Generative AI Engineering · Agent Systems / Agent Bricks · RAG
 
-**Cloud & Languages** &nbsp;·&nbsp; AWS · Azure · GCP · Python · SQL
+**Cloud & Languages** &nbsp;—&nbsp; AWS · Azure · GCP · Python · SQL
 
 ---
 
@@ -170,12 +143,6 @@ flowchart LR
     </td>
   </tr>
 </table>
-
-<details>
-  <summary>More stats — streak</summary>
-  <br/>
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=jason-miles&theme=tokyonight&hide_border=false" alt="GitHub Streak" />
-</details>
 
 ---
 
@@ -242,15 +209,15 @@ flowchart LR
 </p>
 
 <p align="center">
-  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet"><img src="https://img.shields.io/badge/View_full_credentials_wallet-FF3621?style=for-the-badge&logo=databricks&logoColor=white" alt="View full credentials wallet" /></a>
+  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet"><b>View full credentials wallet →</b></a>
 </p>
 
 ---
 
-## Get in touch
-
 <p align="center">
-  <a href="https://jason-miles.github.io">Homepage</a> &nbsp;·&nbsp;
-  <a href="https://www.linkedin.com/in/jasonmiles/">LinkedIn</a> &nbsp;·&nbsp;
-  <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet">Databricks credentials</a>
+  <sub>
+    <a href="https://jason-miles.github.io">Homepage</a> &nbsp;·&nbsp;
+    <a href="https://www.linkedin.com/in/jasonmiles/">LinkedIn</a> &nbsp;·&nbsp;
+    <a href="https://credentials.databricks.com/profile/jasonmiles-bcs/wallet">Databricks credentials</a>
+  </sub>
 </p>

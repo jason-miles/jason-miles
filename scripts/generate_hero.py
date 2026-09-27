@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 """
-Generate assets/hero.svg — the animated profile banner.
+Generate assets/hero.svg — the editorial profile banner.
 
-A single self-contained SVG that:
-  * renders a Databricks-red -> amber gradient header with a dot-grid motif
-  * types out a rotating set of taglines (per-character reveal + riding caret)
-    using SMIL, which GitHub runs for SVG loaded via <img>
-  * shows a live stat line (public repo count is pulled at generation time)
-  * adapts to GitHub light/dark via prefers-color-scheme
+Design: near-black (or warm-paper) canvas, embedded Space Grotesk, a single red
+accent. Left column is an editorial masthead (kicker / name / tagline / fact
+index); the right column is a custom "data-strata" signature mark — layered bars
+that evoke a lakehouse, with a slow shimmer for restrained motion.
 
-Run nightly by .github/workflows/profile-refresh.yml, or locally:
-    GITHUB_TOKEN=... python3 scripts/generate_hero.py
+Local run:  GITHUB_TOKEN=... python3 scripts/generate_hero.py
 """
 import json
 import os
@@ -21,26 +18,30 @@ import brand
 
 USER = "jason-miles"
 OUT = Path(__file__).resolve().parent.parent / "assets" / "hero.svg"
+W, H = 1200, 284
+PAD = 64
 
-W, H = 1200, 268
-PAD = 56
-
-PHRASES = [
-    "Turning data & AI ambition into production.",
-    "Lakehouse architecture · governance · GenAI.",
-    "From POC to production on Databricks.",
-    "Agents, RAG & Model Serving, at scale.",
+# custom strata mark: per-row segment widths (px); layered "lakehouse" bars.
+STRATA = [
+    [40, 66],
+    [96, 28, 44],
+    [150],                 # accent
+    [58, 104],
+    [26, 38, 118],         # accent on last
+    [176],
+    [48, 88],
+    [102, 56],             # accent on first
+    [72],
 ]
-
-# typed-line geometry
-TYPE_FS = 27            # font size of the rotating line
-CHAR_W = TYPE_FS * 0.60  # mono char-width estimate for caret placement
-TYPE_X = PAD + 26        # x where phrase text starts (after the "› " prompt)
-TYPE_Y = 178
+ACCENTS = {(2, 0), (4, 2), (7, 0)}   # (row, segment) drawn in red
+STRATA_X = 860
+STRATA_TOP = 78
+ROW_GAP = 21
+SEG_H = 8
+SEG_GAP = 8
 
 
 def public_repo_count() -> int:
-    """Live count of the user's public repos; falls back gracefully offline."""
     req = urllib.request.Request(f"https://api.github.com/users/{USER}")
     tok = os.environ.get("GITHUB_TOKEN")
     if tok:
@@ -53,134 +54,60 @@ def public_repo_count() -> int:
         return 0
 
 
-def typed_line() -> str:
-    """
-    Build the rotating typed line. Each phrase gets a clipPath whose width ramps
-    0 -> full within its slice of one shared loop (dur = T), plus a caret that
-    rides the clip edge and blinks. Opacity windows hand off between phrases.
-    """
-    n = len(PHRASES)
-    slot = 3.4                     # seconds a phrase is on screen
-    T = round(n * slot, 2)         # total loop length
-    typ = 1.5 / T                  # fraction of the loop spent typing a phrase
-    f = 1.0 / n                    # fraction of the loop per phrase
-
-    clips, texts, carets = [], [], []
-    for i, phrase in enumerate(PHRASES):
-        start = i * f
-        end = (i + 1) * f
-        type_end = start + typ
-        end_x = TYPE_X + len(phrase) * CHAR_W
-
-        # clipPath rect: width 0 until this phrase's window, ramps to full, holds
-        clips.append(
-            f'<clipPath id="clip{i}"><rect x="{TYPE_X}" y="{TYPE_Y-30}" '
-            f'width="0" height="42">'
-            f'<animate attributeName="width" '
-            f'values="0;0;{end_x-TYPE_X:.0f};{end_x-TYPE_X:.0f}" '
-            f'keyTimes="0;{start:.4f};{type_end:.4f};1" '
-            f'dur="{T}s" repeatCount="indefinite" calcMode="linear"/>'
-            f'</rect></clipPath>'
-        )
-
-        # phrase text, revealed through its clip, faded in/out over its window
-        eps = 0.004
-        op_kt = f"0;{max(start-eps,0):.4f};{start:.4f};{end-eps:.4f};{end:.4f};1"
-        op_v = "0;0;1;1;0;0" if i < n - 1 else "1;1;1;1;0;0"
-        if i == 0:
-            op_kt = f"0;{start:.4f};{end-eps:.4f};{end:.4f};1"
-            op_v = "1;1;1;0;0"
-        texts.append(
-            f'<g clip-path="url(#clip{i})">'
-            f'<text x="{TYPE_X}" y="{TYPE_Y}" class="type" '
-            f'font-family="{brand.MONO}" font-size="{TYPE_FS}">{_esc(phrase)}'
-            f'</text></g>'
-            f'<animate xlink:href="#g{i}" attributeName="opacity" '
-            f'values="{op_v}" keyTimes="{op_kt}" dur="{T}s" '
-            f'repeatCount="indefinite"/>'
-        )
-        # wrap text group with an id so opacity animation can target it
-        texts[-1] = f'<g id="g{i}">' + texts[-1].split("<animate")[0] + "</g>" + \
-            "<animate" + texts[-1].split("<animate", 1)[1]
-
-        # riding caret: x tracks the clip edge, opacity blinks
-        carets.append(
-            f'<g opacity="0">'
-            f'<animate attributeName="opacity" values="0;0;1;1;0;0" '
-            f'keyTimes="0;{max(start-eps,0):.4f};{start:.4f};{end-eps:.4f};{end:.4f};1" '
-            f'dur="{T}s" repeatCount="indefinite"/>'
-            f'<rect y="{TYPE_Y-24}" width="3" height="30" fill="{brand.RED}">'
-            f'<animate attributeName="x" '
-            f'values="{TYPE_X};{TYPE_X};{end_x:.0f};{end_x:.0f}" '
-            f'keyTimes="0;{start:.4f};{type_end:.4f};1" dur="{T}s" '
-            f'repeatCount="indefinite" calcMode="linear"/>'
-            f'<animate attributeName="opacity" values="1;1;0;0;1" '
-            f'keyTimes="0;0.45;0.5;0.95;1" dur="1s" repeatCount="indefinite"/>'
-            f'</rect></g>'
-        )
-
-    prompt = (f'<text x="{PAD}" y="{TYPE_Y}" font-family="{brand.MONO}" '
-              f'font-size="{TYPE_FS}" fill="{brand.RED}" '
-              f'font-weight="700">&#8250;</text>')
-    return "<defs>" + "".join(clips) + "</defs>" + prompt + \
-        "".join(texts) + "".join(carets)
-
-
-def _esc(s: str) -> str:
-    return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+def strata() -> str:
+    """The signature mark. Neutral bars (theme-adaptive) + 3 red accents, with a
+    slow staggered opacity shimmer that reads as data settling into layers."""
+    out = []
+    for i, row in enumerate(STRATA):
+        y = STRATA_TOP + i * ROW_GAP
+        x = STRATA_X
+        for j, w in enumerate(row):
+            accent = (i, j) in ACCENTS
+            fill = f'fill="{brand.RED}"' if accent else 'class="muted"'
+            base = 0.9 if accent else 0.42
+            hi = 1.0 if accent else 0.72
+            begin = round(i * 0.28 + j * 0.16, 2)
+            out.append(
+                f'<rect x="{x}" y="{y}" width="{w}" height="{SEG_H}" rx="4" {fill} opacity="{base}">'
+                f'<animate attributeName="opacity" values="{base};{hi};{base}" '
+                f'dur="4.2s" begin="{begin}s" repeatCount="indefinite" '
+                f'calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/>'
+                f'</rect>')
+            x += w + SEG_GAP
+    return "".join(out)
 
 
 def build() -> str:
     repos = public_repo_count()
-    repo_txt = f"{repos} public repositories" if repos else "public repositories"
-    stat = (f"{repo_txt}  ·  8 Databricks certifications  ·  "
-            f"London → UK · EMEA · South Africa")
+    repo_txt = f"{repos} PUBLIC REPOS" if repos else "PUBLIC REPOS"
+    kicker = "SENIOR SOLUTIONS ARCHITECT · DATABRICKS"
+    tagline = "Turning data & AI ambition into production on the Lakehouse."
+    index = f"8× DATABRICKS CERTIFIED   ·   {repo_txt}   ·   LONDON — EMEA — SA"
 
-    style = brand.theme_style(f"""
-    .name  {{ font-weight: 800; letter-spacing: -0.5px; }}
-    .type  {{ fill: {brand.TEXT_DARK}; }}
-    @media (prefers-color-scheme: light) {{ .type {{ fill: {brand.TEXT_LIGHT}; }} }}
-  """)
-
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="Jason Miles — Senior Solutions Architect at Databricks">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="Jason Miles — Senior Solutions Architect at Databricks">
   <title>Jason Miles — Senior Solutions Architect · Databricks</title>
-{style}
-  <defs>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="{brand.RED}"/>
-      <stop offset="55%" stop-color="{brand.ORANGE}"/>
-      <stop offset="100%" stop-color="{brand.AMBER}"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="15%" cy="0%" r="75%">
-      <stop offset="0%" stop-color="{brand.RED}" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="{brand.RED}" stop-opacity="0"/>
-    </radialGradient>
-    {brand.dot_pattern()}
-  </defs>
-
+{brand.theme_style()}
   <!-- canvas -->
-  <rect x="1" y="1" width="{W-2}" height="{H-2}" rx="{brand.RADIUS}" class="bg line" stroke-width="1.5"/>
-  <rect x="2" y="2" width="{W-4}" height="{H-4}" rx="{brand.RADIUS-1}" fill="url(#dots)"/>
-  <rect x="1" y="1" width="{W-2}" height="{H-2}" rx="{brand.RADIUS}" fill="url(#glow)"/>
-  <!-- accent rail -->
-  <rect x="1" y="1" width="7" height="{H-2}" rx="3.5" fill="url(#accent)"/>
-  <!-- animated accent sweep along the top -->
-  <rect x="{PAD}" y="46" width="120" height="4" rx="2" fill="url(#accent)">
-    <animate attributeName="width" values="0;340;0" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/>
+  <rect x="0.75" y="0.75" width="{W-1.5}" height="{H-1.5}" rx="{brand.RADIUS}" class="ink hair" stroke-width="1.5"/>
+
+  <!-- signature accent tick -->
+  <rect x="{PAD}" y="44" width="28" height="3" rx="1.5" fill="{brand.RED}">
+    <animate attributeName="width" values="28;46;28" dur="5s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/>
   </rect>
 
-  <!-- identity -->
-  <text x="{PAD}" y="112" class="txt name" font-family="{brand.SANS}" font-size="60">Jason Miles</text>
-  <text x="{PAD}" y="146" class="muted" font-family="{brand.SANS}" font-size="21" letter-spacing="0.3px">Senior Solutions Architect · Databricks</text>
+  <!-- masthead -->
+  <text x="{PAD}" y="78" class="muted" font-size="13" font-weight="500" letter-spacing="3.6">{kicker}</text>
+  <text x="{PAD}" y="152" class="txt" font-size="68" font-weight="700" letter-spacing="-1.6">Jason Miles</text>
+  <text x="{PAD}" y="200" class="txt" font-size="18" font-weight="500">{brand.esc(tagline)}</text>
 
-  <!-- rotating typed line -->
-  {typed_line()}
-
-  <!-- live stat line -->
-  <circle cx="{PAD+4}" cy="226" r="4.5" fill="{brand.RED}">
-    <animate attributeName="opacity" values="1;0.25;1" dur="2.2s" repeatCount="indefinite"/>
+  <!-- fact index -->
+  <circle cx="{PAD+4}" cy="248" r="4" fill="{brand.RED}">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/>
   </circle>
-  <text x="{PAD+20}" y="231" class="muted" font-family="{brand.SANS}" font-size="16">{_esc(stat)}</text>
+  <text x="{PAD+20}" y="253" class="muted" font-size="12.5" font-weight="500" letter-spacing="2.2">{index}</text>
+
+  <!-- custom data-strata signature -->
+  {strata()}
 </svg>
 """
 

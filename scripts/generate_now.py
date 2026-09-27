@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Generate assets/now.svg — the live "Currently building" strip.
+Generate assets/now.svg — the editorial "Currently building" strip.
 
-Pulls the most recently *pushed* public repos at generation time and renders
-them as three cards (name · description · "updated N ago"), with a pulsing live
-dot. Regenerated nightly by the workflow so the profile always reads as active.
+Matches the profile's engineered-editorial language: a tracked kicker, a hairline
+rule, and three columns (index / repo / description / relative time) divided by
+hairlines. Pulls the most recently pushed public repos at generation time; one
+red accent (the live dot). Regenerated nightly by the workflow.
 
 Local run:  GITHUB_TOKEN=... python3 scripts/generate_now.py
 """
@@ -18,17 +19,15 @@ import brand
 
 USER = "jason-miles"
 OUT = Path(__file__).resolve().parent.parent / "assets" / "now.svg"
-W = 1200
-HEAD = 52
-CARD_H = 120
-GAP = 20
-# repos we never want to surface as "building" (infra / meta)
+W, H = 1200, 210
+PAD = 40
+HEAD_Y = 40
+COL_TOP = 88
 SKIP = {"jason-miles", "github-stats"}
 
 
 def recent_repos(n=3):
-    url = (f"https://api.github.com/users/{USER}/repos"
-           f"?sort=pushed&per_page=30&type=owner")
+    url = f"https://api.github.com/users/{USER}/repos?sort=pushed&per_page=30&type=owner"
     req = urllib.request.Request(url)
     tok = os.environ.get("GITHUB_TOKEN")
     if tok:
@@ -49,34 +48,25 @@ def recent_repos(n=3):
     return out
 
 
-def ago(iso: str) -> str:
+def ago(iso):
     try:
         t = datetime.fromisoformat(iso.replace("Z", "+00:00"))
     except Exception:
         return ""
-    d = datetime.now(timezone.utc) - t
-    days = d.days
+    days = (datetime.now(timezone.utc) - t).days
     if days <= 0:
-        return "today"
+        return "TODAY"
     if days == 1:
-        return "yesterday"
+        return "YESTERDAY"
     if days < 30:
-        return f"{days}d ago"
+        return f"{days} DAYS AGO"
     if days < 365:
-        return f"{days // 30}mo ago"
-    return f"{days // 365}y ago"
+        return f"{days // 30} MONTHS AGO"
+    return f"{days // 365} YEARS AGO"
 
 
-def _esc(s: str) -> str:
-    return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-
-def _wrap(text: str, width: int, size: int = 13):
-    """Naive word-wrap to <=2 lines for the card description."""
-    if not text:
-        return ["Recent work in this repository."]
-    cpl = max(8, int(width / (size * 0.52)))
-    words, lines, cur = text.split(), [], ""
+def _wrap(text, cpl):
+    words, lines, cur = (text or "").split(), [], ""
     for w in words:
         if len(cur) + len(w) + 1 <= cpl:
             cur = (cur + " " + w).strip()
@@ -87,59 +77,56 @@ def _wrap(text: str, width: int, size: int = 13):
             break
     if cur and len(lines) < 2:
         lines.append(cur)
-    if len(lines) == 2 and len(" ".join(words)) > sum(len(x) for x in lines):
+    if len(lines) == 2 and len(cur) > cpl:
         lines[1] = lines[1][:cpl - 1].rstrip() + "…"
-    return lines[:2]
+    return lines[:2] or [""]
 
 
-def card(repo, x):
-    cw = (W - 2 * GAP - 2 * GAP) / 3
-    y = HEAD
-    name = _esc(repo["name"])
+def column(repo, i, x, cw):
+    name = brand.esc(repo["name"])
     desc = repo.get("description") or ""
     if not desc:
         lang = repo.get("language")
-        desc = f"{lang} · active development" if lang else "Active development."
-    desc_lines = _wrap(desc, cw - 44)
-    rel = ago(repo.get("pushed_at", ""))
-    s = [f'<rect x="{x:.0f}" y="{y}" width="{cw:.0f}" height="{CARD_H}" rx="12" class="panel"/>']
-    s.append(f'<rect x="{x:.0f}" y="{y}" width="4" height="{CARD_H}" rx="2" fill="url(#nowaccent)"/>')
-    s.append(f'<text x="{x+22:.0f}" y="{y+34}" class="txt" font-family="{brand.SANS}" '
-             f'font-size="18" font-weight="700">{name}</text>')
-    for i, ln in enumerate(desc_lines):
-        s.append(f'<text x="{x+22:.0f}" y="{y+58+i*19}" class="muted" '
-                 f'font-family="{brand.SANS}" font-size="13">{_esc(ln)}</text>')
-    s.append(f'<circle cx="{x+27:.0f}" cy="{y+CARD_H-22}" r="3.5" fill="{brand.RED}"/>')
-    s.append(f'<text x="{x+38:.0f}" y="{y+CARD_H-17}" class="muted" '
-             f'font-family="{brand.MONO}" font-size="12">updated {rel}</text>')
+        desc = f"{lang} · active development" if lang else "Active development"
+    cpl = max(10, int(cw / 7.4))
+    lines = _wrap(desc, cpl)
+    s = [f'<text x="{x:.0f}" y="{COL_TOP}" class="muted" font-size="12" font-weight="700" opacity="0.4">0{i+1}</text>']
+    s.append(f'<text x="{x:.0f}" y="{COL_TOP+30}" class="txt" font-size="19" font-weight="700">{name}</text>')
+    for k, ln in enumerate(lines):
+        s.append(f'<text x="{x:.0f}" y="{COL_TOP+56+k*19}" class="muted" font-size="13" font-weight="500">{brand.esc(ln)}</text>')
+    s.append(f'<circle cx="{x+4:.0f}" cy="{COL_TOP+96}" r="3" fill="{brand.RED}"/>')
+    s.append(f'<text x="{x+16:.0f}" y="{COL_TOP+100}" class="muted" font-size="11" font-weight="500" letter-spacing="1.5">{ago(repo.get("pushed_at",""))}</text>')
     return "".join(s)
 
 
-def build() -> str:
+def build():
     repos = recent_repos(3)
-    cw = (W - 2 * GAP - 2 * GAP) / 3
-    if repos:
-        cards = "".join(card(r, GAP + i * (cw + GAP)) for i, r in enumerate(repos))
-    else:
-        cards = (f'<text x="{W/2}" y="{HEAD+70}" text-anchor="middle" class="muted" '
-                 f'font-family="{brand.SANS}" font-size="15">Recent public activity loads here.</text>')
-    H = HEAD + CARD_H + 20
-    today = datetime.now(timezone.utc).strftime("%d %b %Y")
+    today = datetime.now(timezone.utc).strftime("%d %b %Y").upper()
+    inner = W - 2 * PAD
+    cols = 3
+    gap = 40
+    cw = (inner - (cols - 1) * gap) / cols
+    body, dividers = [], []
+    for i in range(cols):
+        x = PAD + i * (cw + gap)
+        if i < len(repos):
+            body.append(column(repos[i], i, x, cw))
+        if i > 0:
+            dx = x - gap / 2
+            dividers.append(f'<line x1="{dx:.0f}" y1="{COL_TOP-18}" x2="{dx:.0f}" y2="{H-30}" class="hair" stroke-width="1"/>')
+
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="Currently building — recent public repositories">
   <title>Currently building</title>
 {brand.theme_style()}
-  <defs>
-    <linearGradient id="nowaccent" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="{brand.RED}"/>
-      <stop offset="100%" stop-color="{brand.AMBER}"/>
-    </linearGradient>
-  </defs>
-  <circle cx="{GAP+6}" cy="26" r="6" fill="{brand.RED}">
-    <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite"/>
+  <rect x="0.75" y="0.75" width="{W-1.5}" height="{H-1.5}" rx="{brand.RADIUS}" class="ink hair" stroke-width="1.5"/>
+  <circle cx="{PAD+5}" cy="{HEAD_Y-4}" r="5" fill="{brand.RED}">
+    <animate attributeName="opacity" values="1;0.25;1" dur="2s" repeatCount="indefinite"/>
   </circle>
-  <text x="{GAP+22}" y="31" class="txt" font-family="{brand.SANS}" font-size="17" font-weight="700">Currently building</text>
-  <text x="{W-GAP}" y="31" text-anchor="end" class="muted" font-family="{brand.MONO}" font-size="12">auto-updated nightly · {today}</text>
-  {cards}
+  <text x="{PAD+20}" y="{HEAD_Y}" class="txt" font-size="14" font-weight="700" letter-spacing="2.4">CURRENTLY BUILDING</text>
+  <text x="{W-PAD}" y="{HEAD_Y}" text-anchor="end" class="muted" font-size="11" font-weight="500" letter-spacing="1.8">AUTO-UPDATED · {today}</text>
+  <line x1="{PAD}" y1="{HEAD_Y+18}" x2="{W-PAD}" y2="{HEAD_Y+18}" class="hair" stroke-width="1"/>
+  {''.join(dividers)}
+  {''.join(body)}
 </svg>
 """
 
