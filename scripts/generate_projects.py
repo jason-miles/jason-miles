@@ -193,9 +193,8 @@ def build(p: dict) -> str:
   <rect x="1" y="1" width="{W-2}" height="{H-2}" rx="{brand.RADIUS}" class="bg line" stroke-width="1.5"/>
   {_chrome(host)}
   {body}
-  <!-- footer tag + title -->
+  <!-- accent footer rule -->
   <rect x="0" y="{H-2}" width="{W}" height="2" fill="url(#paccent)"/>
-  <text x="24" y="{BAR-58 if False else BAR+0}" opacity="0"></text>
 </svg>
 """
 

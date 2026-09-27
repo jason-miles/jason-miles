@@ -108,7 +108,7 @@ Based in London · working with customers across the UK, EMEA, and South Africa.
 **Sentinel — Fraud & AML**
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FF3621','primaryTextColor':'#ffffff','primaryBorderColor':'#FF5F46','lineColor':'#FF5F46','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#1f2937','primaryTextColor':'#ffffff','primaryBorderColor':'#FF5F46','lineColor':'#FF5F46','clusterBkg':'#1f2937','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
 flowchart LR
   T[Transactions & core banking] --> BZ[Bronze<br/>Delta]
   W[Sanctions & watchlists] --> BZ
@@ -125,7 +125,7 @@ flowchart LR
 **Discovery Vitality Pulse**
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FF3621','primaryTextColor':'#ffffff','primaryBorderColor':'#FF5F46','lineColor':'#FF5F46','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#1f2937','primaryTextColor':'#ffffff','primaryBorderColor':'#FF5F46','lineColor':'#FF5F46','clusterBkg':'#1f2937','fontFamily':'-apple-system, Segoe UI, sans-serif'}}}%%
 flowchart LR
   M[Member health, claims & rewards] --> BZ[Bronze] --> SV[Silver] --> GD[Gold<br/>shared-value metrics]
   GD --> DASH[AI/BI dashboards<br/>GM Morning Brief]

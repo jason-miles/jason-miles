@@ -155,11 +155,12 @@ def build() -> str:
       <stop offset="0%" stop-color="{brand.RED}" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="{brand.RED}" stop-opacity="0"/>
     </radialGradient>
+    {brand.dot_pattern()}
   </defs>
 
   <!-- canvas -->
   <rect x="1" y="1" width="{W-2}" height="{H-2}" rx="{brand.RADIUS}" class="bg line" stroke-width="1.5"/>
-  {brand.dot_grid(W, H)}
+  <rect x="2" y="2" width="{W-4}" height="{H-4}" rx="{brand.RADIUS-1}" fill="url(#dots)"/>
   <rect x="1" y="1" width="{W-2}" height="{H-2}" rx="{brand.RADIUS}" fill="url(#glow)"/>
   <!-- accent rail -->
   <rect x="1" y="1" width="7" height="{H-2}" rx="3.5" fill="url(#accent)"/>

@@ -77,15 +77,13 @@ def theme_style(extra: str = "") -> str:
   </style>"""
 
 
-def dot_grid(width: int, height: int, gap: int = 26, r: float = 1.1,
-             x0: int = 0, y0: int = 0) -> str:
-    """A faint dot-grid motif used as a subtle background texture."""
-    dots = []
-    y = y0 + gap
-    while y < height:
-        x = x0 + gap
-        while x < width:
-            dots.append(f'<circle cx="{x}" cy="{y}" r="{r}" class="dot" opacity="0.5"/>')
-            x += gap
-        y += gap
-    return "".join(dots)
+def dot_pattern(pid: str = "dots", gap: int = 26, r: float = 1.1) -> str:
+    """A faint dot-grid motif as a reusable <pattern> (goes in <defs>).
+
+    A single tiling pattern instead of hundreds of <circle> elements — keeps
+    generated SVGs small. Fill any rect with fill="url(#<pid>)" to apply it.
+    """
+    return (f'<pattern id="{pid}" width="{gap}" height="{gap}" '
+            f'patternUnits="userSpaceOnUse">'
+            f'<circle cx="{gap/2}" cy="{gap/2}" r="{r}" class="dot" opacity="0.5"/>'
+            f'</pattern>')
